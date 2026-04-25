@@ -1,0 +1,22 @@
+---
+description: Require creating a worktree before starting new feature work
+alwaysApply: true
+---
+
+# 新功能开发前必须创建 worktree
+
+当用户明确表示要“开发新功能”或进入新功能实现阶段时，必须先在当前基础上创建一个独立的 git worktree，再在该 worktree 中进行开发。
+
+## 执行要求
+
+1. 在开始编码前，先创建 worktree。
+2. worktree 的命名应使用本次要实现的功能名称，尽量简洁、可读。
+3. 新功能必须在对应 worktree 中完成修改、验证和后续迭代。
+4. 只有在用户明确不需要隔离开发，或任务不是新功能开发时，才不适用这条规则。
+5. 如果当前环境不适合创建 worktree，必须先说明原因并征求用户确认。
+
+## 适用条件
+
+- 适用于所有“新功能开发”类任务
+- 触发条件为用户开始开发新功能时
+- 不替代常规的测试、代码审查和提交流程

@@ -1,0 +1,22 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "idf.espIdfPath": "D:\\DevTools\\Espressif\\frameworks\\esp-idf-v5.5.4",
+  "idf.toolsPath": "D:\\DevTools\\Espressif",
+  "idf.pythonBinPath": "D:\\DevTools\\Espressif\\python_env\\idf5.5_py3.11_env\\Scripts\\python.exe",
+  "idf.buildPath": "build",
+  "idf.customExtraVars": {
+    "IDF_TARGET": "esp32s3"
+  },
+  "idf.openOcdConfigs": [
+    "board/esp32s3-builtin.cfg"
+  ],
+  "idf.flashType": "UART",
+  "idf.portWin": "COM5",
+  "cmake.cmakePath": "D:\\DevTools\\Espressif\\tools\\cmake\\3.30.2\\bin\\cmake.exe",
+  "ninja.path": "D:\\DevTools\\Espressif\\tools\\ninja\\1.12.1\\ninja.exe",
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "terminal.integrated.automationProfile.windows": {
+    "path": "C:\\Windows\\System32\\cmd.exe"
+  },
+  "idf.currentSetup": "D:/DevTools/Espressif/frameworks/esp-idf-v5.5.4/"
+}
