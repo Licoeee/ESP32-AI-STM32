@@ -1,3 +1,20 @@
-idf_component_register(SRCS "station_example_main.c"
-                    PRIV_REQUIRES esp_wifi nvs_flash bt
-                    INCLUDE_DIRS ".")
+idf_component_register(
+    SRCS
+        "app/app_main.c"
+        "app/app_init.c"
+        "services/wifi_service.c"
+        "services/audio_capture.c"
+        "services/audio_transport.c"
+        "services/audio_service.c"
+        "services/asr_service.c"
+        "board/board_init.c"
+        "board/board_led.c"
+        "board/board_pins.c"
+    PRIV_REQUIRES esp_wifi nvs_flash bt esp_driver_i2s esp_http_client esp-tls esp_websocket_client
+    INCLUDE_DIRS
+        "."
+        "app"
+        "config"
+        "services"
+        "board"
+)
