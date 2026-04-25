@@ -74,3 +74,10 @@ The important architectural pattern is that asynchronous Wi-Fi/IP events update 
 
 - No repository-level Cursor rules, `.cursorrules`, Copilot instructions, or existing project `CLAUDE.md` were found.
 - No project-specific lint command or lint configuration file was found in the repository; do not assume one exists without checking the active ESP-IDF environment or external tooling setup.
+- Git workflow rules are defined in `.cursor/rules/git-workflow-policy.mdc` and should be treated as the repository-level source of truth for all Git operations.
+
+## Git workflow policy
+
+Git-related actions in this repository must follow `.cursor/rules/git-workflow-policy.mdc`.
+
+Before any Git operation, verify the current branch and status, then apply that policy. If the requested action would violate it, stop and warn the user before proceeding.
