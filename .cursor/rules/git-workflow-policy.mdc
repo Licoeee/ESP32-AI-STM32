@@ -1,0 +1,65 @@
+---
+description: Enforce standardized Git workflow for all Git actions in this repository
+alwaysApply: true
+---
+
+# Git 工作流规范
+
+本项目默认遵循标准化 Git 工作流，适用于所有 Git 相关操作。
+
+## 分支策略
+
+- `main`：生产环境，只允许稳定且已完成测试的代码。
+- `dev`：集成分支，所有功能在此合并并测试。
+- `feature/*`、`fix/*`、`hotfix/*`：临时工作分支。
+- 禁止直接在 `main` 或 `dev` 上开发。
+- 每个新功能或修复，必须从最新 `dev` 创建独立分支。
+
+## 分支命名
+
+- 新功能：`feature/<简短描述>`，例如 `feature/user-login`
+- Bug 修复：`fix/<问题简述>`，例如 `fix/header-responsive`
+- 紧急修复：`hotfix/<关键问题>`，基于 `main`
+
+## 提交规范
+
+所有提交信息必须遵循 Conventional Commits，并且提交描述使用中文：
+
+`<type>(<scope>): <中文描述>`
+
+允许的 `type`：
+
+- `feat`
+- `fix`
+- `docs`
+- `style`
+- `refactor`
+- `test`
+- `chore`
+
+示例：
+
+- `feat(auth): 实现 JWT 登录`
+- `fix(api): 处理空用户资料`
+- `docs(git): 添加工作流规范`
+
+## 开发流程
+
+1. 先切到最新 `dev` 并拉取更新。
+2. 再创建对应的功能分支。
+3. 小步提交，每次提交聚焦单一变更。
+4. 完成后推送并发起 Pull Request 到 `dev`。
+5. 合并方式使用 Squash and Merge，保持 `dev` 历史整洁。
+6. 合并后删除功能分支。
+
+## Git 操作前的强制检查
+
+每次要使用 Git 之前，都必须先查看并遵循本规范。
+
+如果当前操作可能违反本规范，必须先提醒并停止执行，等待确认。
+
+## 适用范围
+
+- 适用于所有 Git 操作
+- 适用于代码生成、提交信息建议、分支操作和开发指导中的 Git 相关行为
+- 适用于由助手执行的 Git 操作，也适用于人工操作时的参考
