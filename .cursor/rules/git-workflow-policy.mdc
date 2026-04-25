@@ -23,9 +23,9 @@ alwaysApply: true
 
 ## 提交规范
 
-所有提交信息必须遵循 Conventional Commits：
+所有提交信息必须遵循 Conventional Commits，并且提交描述使用中文：
 
-`<type>(<scope>): <description>`
+`<type>(<scope>): <中文描述>`
 
 允许的 `type`：
 
@@ -39,9 +39,9 @@ alwaysApply: true
 
 示例：
 
-- `feat(auth): implement JWT login`
-- `fix(api): handle null user profile`
-- `docs(git): add workflow policy`
+- `feat(auth): 实现 JWT 登录`
+- `fix(api): 处理空用户资料`
+- `docs(git): 添加工作流规范`
 
 ## 开发流程
 
