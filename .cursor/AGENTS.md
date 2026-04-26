@@ -26,15 +26,7 @@
    - 必须优先加载 `./.cursor/skills/` 路径下的 **superpowers** 技能。
    - 必须严格遵守 `./.cursor/skills/karpathy-guidelines/SKILL.md` 的代码哲学。
 
-## 四、 自动化测试 SOP (触发词：“自动化测试”)
-当大帅说“自动化测试”时，自动进入以下循环：
-1. 运行 `python @build_with_idf.py`。
-2. 轮询 `@Simulation_Build/build_log.txt`：
-   - `building`：等待 5s。
-   - `successful`：停止轮询，汇报大帅。
-   - `失败/报错`：**强制调用 superpower 技能分析日志并自动修复**，重回步骤 1。
-
-## 五、 代码风格规范
+## 四、 代码风格规范
 1. **文件头注释**：新文件必须包含：
    ```c
    /*
