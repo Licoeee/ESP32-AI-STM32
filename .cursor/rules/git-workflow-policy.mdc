@@ -50,7 +50,7 @@ alwaysApply: true
 3. 小步提交，每次提交聚焦单一变更。
 4. 完成后推送并发起 Pull Request 到 `dev`。
 5. 合并方式使用 Squash and Merge，保持 `dev` 历史整洁。
-6. 合并后删除功能分支。
+6. 除了 `dev` 和 `main` 之外，所有从 `dev` 创建的临时分支在任务完成并合并回 `dev` 后必须删除。
 
 ## Git 操作前的强制检查
 
