@@ -74,11 +74,11 @@ static void audio_transport_log_asr_payload(const char *payload, int len)
                 *end = '\0';
             }
         }
-        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR text: %s", text_pos);
+        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR 识别结果：%s", text_pos);
         return;
     }
 
-    ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR payload: %s", buf);
+    ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR 原始返回：%s", buf);
 }
 
 static void audio_transport_websocket_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data)
@@ -90,20 +90,22 @@ static void audio_transport_websocket_event_handler(void *handler_args, esp_even
     switch (event_id) {
     case WEBSOCKET_EVENT_CONNECTED:
         s_ws_connected = true;
-        ESP_LOGI(AUDIO_TRANSPORT_TAG, "websocket connected");
+        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR WebSocket 已连接，准备开始发送音频流");
         audio_transport_ws_send_text("{\"type\":\"start\",\"sample_rate\":16000,\"bits\":16,\"channels\":1,\"format\":\"pcm_s16le\"}");
+        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR 启动帧已发送，采样率=16000，位宽=16，通道=1");
         break;
     case WEBSOCKET_EVENT_DISCONNECTED:
         s_ws_connected = false;
-        ESP_LOGW(AUDIO_TRANSPORT_TAG, "websocket disconnected");
+        ESP_LOGW(AUDIO_TRANSPORT_TAG, "ASR WebSocket 已断开");
         break;
     case WEBSOCKET_EVENT_DATA:
         if (data != NULL && data->data_ptr != NULL && data->data_len > 0) {
+            ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR 收到返回数据，长度=%d", data->data_len);
             audio_transport_log_asr_payload(data->data_ptr, data->data_len);
         }
         break;
     case WEBSOCKET_EVENT_ERROR:
-        ESP_LOGE(AUDIO_TRANSPORT_TAG, "websocket error");
+        ESP_LOGE(AUDIO_TRANSPORT_TAG, "ASR WebSocket 发生错误");
         break;
     default:
         break;
@@ -117,7 +119,7 @@ void audio_transport_set_asr_ws_url(const char *ws_url)
     }
 
     strlcpy(s_asr_ws_url, ws_url, sizeof(s_asr_ws_url));
-    ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR websocket url set to %s", s_asr_ws_url);
+    ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR WebSocket 地址已设置为：%s", s_asr_ws_url);
 }
 
 const char *audio_transport_get_asr_ws_url(void)
@@ -141,7 +143,7 @@ void audio_transport_start(void)
 
     s_ws_client = esp_websocket_client_init(&ws_cfg);
     if (s_ws_client == NULL) {
-        ESP_LOGE(AUDIO_TRANSPORT_TAG, "websocket client init failed");
+        ESP_LOGE(AUDIO_TRANSPORT_TAG, "ASR WebSocket 客户端初始化失败");
         return;
     }
 
@@ -168,7 +170,7 @@ void audio_transport_process_frame(const audio_capture_frame_t *frame)
 
     if (batch_samples + copy_samples > (sizeof(batch_pcm) / sizeof(batch_pcm[0]))) {
         audio_transport_ws_send_pcm(batch_pcm, batch_samples);
-        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ws pcm flush seq=%" PRIu32 " samples=%u", batch_seq, (unsigned)batch_samples);
+        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR 音频批次已刷新，序号=%" PRIu32 "，样本数=%u", batch_seq, (unsigned)batch_samples);
         batch_samples = 0;
     }
 
@@ -178,7 +180,7 @@ void audio_transport_process_frame(const audio_capture_frame_t *frame)
 
     if (batch_samples >= AUDIO_CAPTURE_FRAME_SAMPLES * AUDIO_TRANSPORT_BATCH_FRAMES) {
         audio_transport_ws_send_pcm(batch_pcm, batch_samples);
-        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ws pcm sent seq=%" PRIu32 " samples=%u", batch_seq, (unsigned)batch_samples);
+        ESP_LOGI(AUDIO_TRANSPORT_TAG, "ASR 音频批次已发送，序号=%" PRIu32 "，样本数=%u", batch_seq, (unsigned)batch_samples);
         batch_samples = 0;
     }
 }

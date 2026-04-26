@@ -14,8 +14,9 @@ static const char *TAG = "app_init";
 
 void app_init_start(void)
 {
-    ESP_LOGI(TAG, "app init start");
+    ESP_LOGI(TAG, "应用初始化开始，准备启动 WiFi 和 ASR 音频链路");
     wifi_service_init_sta();
     asr_service_set_ws_url(APP_ASR_WS_URL);
     asr_service_start();
+    ESP_LOGI(TAG, "应用初始化完成");
 }
