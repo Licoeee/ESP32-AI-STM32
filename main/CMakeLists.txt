@@ -4,6 +4,7 @@ idf_component_register(
         "app/app_init.c"
         "services/wifi_service.c"
         "services/audio_capture.c"
+        "services/audio_playback.c"
         "services/audio_transport.c"
         "services/audio_service.c"
         "services/asr_service.c"

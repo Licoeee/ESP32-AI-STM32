@@ -156,10 +156,12 @@ def run_build(project_root: Path, esp_idf_root: Path, log_file: Path) -> int:
         )
 
     clear_log_file(log_file)
-    if rc == 0:
-        append_log(log_file, "successful")
+    failed_marker = "FAILED: "
+    failed_index = output.find(failed_marker)
+    if failed_index != -1:
+        append_log(log_file, output[failed_index:])
     else:
-        append_log(log_file, output)
+        append_log(log_file, "successful")
 
     if output:
         print(output, end="" if output.endswith("\n") else "\n")

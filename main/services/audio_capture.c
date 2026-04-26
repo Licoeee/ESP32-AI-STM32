@@ -14,6 +14,7 @@
 #include "freertos/task.h"
 
 #define AUDIO_CAPTURE_TAG "audio_capture"
+#define AUDIO_CAPTURE_FRAME_SAMPLES 320
 
 static i2s_chan_handle_t s_rx_chan;
 
@@ -35,10 +36,10 @@ esp_err_t audio_capture_init(void)
         .slot_cfg = I2S_STD_MSB_SLOT_DEFAULT_CONFIG(I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_MONO),
         .gpio_cfg = {
             .mclk = I2S_GPIO_UNUSED,
-            .bclk = BOARD_AUDIO_I2S_BCLK_GPIO,
-            .ws = BOARD_AUDIO_I2S_WS_GPIO,
+            .bclk = BOARD_MIC_I2S_BCLK_GPIO,
+            .ws = BOARD_MIC_I2S_WS_GPIO,
             .dout = I2S_GPIO_UNUSED,
-            .din = BOARD_AUDIO_I2S_DIN_GPIO,
+            .din = BOARD_MIC_I2S_DIN_GPIO,
             .invert_flags = {
                 .mclk_inv = false,
                 .bclk_inv = false,
@@ -63,7 +64,7 @@ esp_err_t audio_capture_init(void)
         return ret;
     }
 
-    ESP_LOGI(AUDIO_CAPTURE_TAG, "I2S mic ready on BCLK=%d WS=%d DIN=%d", BOARD_AUDIO_I2S_BCLK_GPIO, BOARD_AUDIO_I2S_WS_GPIO, BOARD_AUDIO_I2S_DIN_GPIO);
+    ESP_LOGI(AUDIO_CAPTURE_TAG, "麦克风 I2S 初始化成功，BCLK=%d，WS=%d，DIN=%d", BOARD_MIC_I2S_BCLK_GPIO, BOARD_MIC_I2S_WS_GPIO, BOARD_MIC_I2S_DIN_GPIO);
     return ESP_OK;
 }
 
@@ -73,5 +74,15 @@ esp_err_t audio_capture_read(audio_capture_frame_t *frame, size_t *bytes_read)
         return ESP_ERR_INVALID_ARG;
     }
 
-    return i2s_channel_read(s_rx_chan, frame->pcm, sizeof(frame->pcm), bytes_read, pdMS_TO_TICKS(1000));
+    esp_err_t ret = i2s_channel_read(s_rx_chan, frame->pcm, sizeof(frame->pcm), bytes_read, pdMS_TO_TICKS(1000));
+    if (ret != ESP_OK || *bytes_read == 0) {
+        return ret;
+    }
+
+    size_t samples = *bytes_read / sizeof(int16_t);
+    if (samples == 0) {
+        return ESP_FAIL;
+    }
+
+    return ESP_OK;
 }
